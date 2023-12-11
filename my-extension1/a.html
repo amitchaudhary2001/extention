@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSON Data Display</title>
+    <style>
+        .progress-circle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .progress-circle {
+            width: 150px;
+            height: 150px;
+            background-color: transparent;
+            border: 4px solid bisque;
+            border-top: 4px solid #ff0000; /* Red color for progress */
+            border-right: 4px solid #ff0000; /* Red color for progress */
+            border-radius: 50%;
+            position: relative;
+            font-size: 24px;
+            color: #ff0000; /* Red color for percentage */
+        }
+
+        .percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        h1 {
+            position: relative;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-circle-container">
+        <h1>JSON Data</h1>
+        <div class="progress-circle" id="progress-circle">
+            <div class="percentage">0%</div>
+        </div>
+    </div>
+    <table>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+    </table>
+
+    <!-- <script>
+        // Your JSON data
+        var jsonData = {
+            'categories': {
+                'Dr.Web': 'social networks',
+                'Forcepoint ThreatSeeker': 'social web - facebook',
+                'Sophos': 'social networks',
+                'BitDefender': 'socialnetworks',
+                'alphaMountain.ai': 'Social Networking'
+            },
+            'last_analysis_results': {
+                'Bkav': 'unrated',
+                'CMC Threat Intelligence': 'clean',
+                // ... (other data)
+            },
+            'last_final_url': 'https://www.facebook.com/login/?next=https://www.facebook.com/&_fb_noscript=1',
+            'safe_percentage': 70.0
+        };
+
+        // Function to add data to the table
+        function populateTable(data, parentElement) {
+            for (var key in data) {
+                if (typeof data[key] === 'object') {
+                    populateTable(data[key], parentElement);
+                } else {
+                    var row = parentElement.insertRow(-1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    cell1.textContent = key;
+                    cell2.textContent = key === 'safe_percentage' ? '' : data[key];
+                }
+            }
+        }
+
+        // Get the table element
+        var tableElement = document.querySelector('table');
+
+        // Populate the table with JSON data
+        populateTable(jsonData, tableElement);
+
+        // Display safe_percentage as a circular progress bar
+        var progressBar = document.getElementById('progress-circle');
+        var percentageText = document.querySelector('.percentage');
+        var safePercentage = jsonData.safe_percentage;
+        percentageText.textContent = safePercentage + '%';
+    </script> -->
+</body>
+</html>

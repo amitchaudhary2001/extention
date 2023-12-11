@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .block {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .fixedButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        #existingDiv {
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        /* Define the color for the clicked state */
+        .clickedButton {
+            background-color: green; /* Change this to the desired color */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // JSON data
+        var jsonData = {
+            'categories': {'BitDefender': 'entertainment', 'Dr.Web': 'violence/adult content', 'Forcepoint ThreatSeeker': 'social web - youtube', 'Sophos': 'video hosting', 'Xcitium Verdict Cloud': 'mobile communications', 'alphaMountain.ai': 'Mixed Content/Potentially Adult, Video/Multimedia'},
+            'crowdsourced_context': [{'details': 'Contextual Indicators: The domain’s Cisco Umbrella rank is 61\n\nContextual Indicators: Domain is classified as Media Streams\n\nContextual Indicators: The domain is popular among websites with good reputation\n\nContextual Indicators: The domain is popular in the world\n\nContextual Indicators: The domain’s Alexa rank is 2\n\nCreated On: 2005:02:15 00:00:00\n\nVirusTotal Link: https://www.virustotal.com/gui/domain/6860776e5611f69c611eb6122f3f227e25d01265c0cb2536a4845797476d60a3/detection\n\nClassification Description: Legitimate website which does not serve any malicious purpose.', 'severity': 'low', 'source': 'ArcSight Threat Intelligence', 'timestamp': 1693455796, 'title': "The People's Liberation Army in the South China Sea: An Organizational Guide"}],
+            'last_analysis_results': {'0xSI_f33d': 'unrated', 'ADMINUSLabs': 'clean', 'AILabs (MONITORAPP)': 'clean', 'Abusix': 'clean', 'Acronis': 'clean', 'AlienVault': 'clean', 'AlphaSOC': 'unrated', 'Antiy-AVL': 'clean', 'ArcSight Threat Intelligence': 'suspicious', 'Artists Against 419': 'clean', 'AutoShun': 'unrated', 'Avira': 'clean', 'Bfore.Ai PreCrime': 'clean', 'BitDefender': 'clean', 'Bkav': 'unrated', 'BlockList': 'clean', 'Blueliv': 'clean', 'CINS Army': 'clean', 'CMC Threat Intelligence': 'clean', 'CRDF': 'clean', 'Certego': 'clean', 'Chong Lua Dao': 'clean', 'Cluster25': 'unrated', 'Criminal IP': 'clean', 'CrowdSec': 'unrated', 'CyRadar': 'clean', 'Cyan': 'unrated', 'Cyble': 'clean', 'DNS8': 'clean', 'Dr.Web': 'clean', 'ESET': 'clean', 'ESTsecurity': 'clean', 'EmergingThreats': 'clean', 'Emsisoft': 'clean', 'Ermes': 'unrated', 'Feodo Tracker': 'clean', 'Forcepoint ThreatSeeker': 'clean', 'Fortinet': 'clean', 'G-Data': 'clean', 'Google Safebrowsing': 'clean', 'GreenSnow': 'clean', 'Heimdal Security': 'clean', 'IPsum': 'clean', 'Juniper Networks': 'clean', 'K7AntiVirus': 'clean', 'Kaspersky': 'clean', 'Lionic': 'clean', 'Lumu': 'unrated', 'MalwarePatrol': 'clean', 'Malwared': 'clean', 'Netcraft': 'unrated', 'OpenPhish': 'clean', 'PREBYTES': 'clean', 'PhishFort': 'unrated', 'PhishLabs': 'unrated', 'Phishing Database': 'clean', 'Phishtank': 'clean', 'PrecisionSec': 'unrated', 'Quick Heal': 'clean', 'Quttera': 'clean', 'Rising': 'clean', 'SCUMWARE.org': 'clean', 'SOCRadar': 'clean', 'SafeToOpen': 'unrated', 'Sangfor': 'clean', 'Scantitan': 'clean', 'Seclookup': 'clean', 'Snort IP sample list': 'clean', 'Sophos': 'clean', 'Spam404': 'clean', 'StopForumSpam': 'clean', 'Sucuri SiteCheck': 'clean', 'ThreatHive': 'clean', 'Threatsourcing': 'clean', 'Trustwave': 'clean', 'URLQuery': 'clean', 'URLhaus': 'clean', 'VIPRE': 'unrated', 'VX Vault': 'clean', 'Viettel Threat Intelligence': 'clean', 'ViriBack': 'clean', 'Webroot': 'clean', 'Xcitium Verdict Cloud': 'clean', 'Yandex Safebrowsing': 'clean', 'ZeroCERT': 'clean', 'alphaMountain.ai': 'clean', 'benkow.cc': 'clean', 'desenmascara.me': 'clean', 'malwares.com URL checker': 'clean', 'securolytics': 'clean'},
+            'last_final_url': 'https://m.youtube.com/',
+            'safe_percentage': 100.0
+        };
+        // Function to show/hide a specific block
+        function toggleBlockVisibility(blockId) {
+            var block = document.getElementById(blockId);
+            if (block.style.display === 'none' || block.style.display === '') {
+                block.style.display = 'block';
+            } else {
+                block.style.display = 'none';
+            }
+        }
+
+        
+
+        // Function to create a table from JSON data
+        function createTable(data, containerId,) {
+            
+            var container = document.getElementById(containerId);
+            var table = document.createElement('table');
+            var headingElement = document.createElement('h2');
+            headingElement.textContent = containerId;
+            container.appendChild(headingElement);
+            // Create table body
+            for (var key in data) {
+                var row = table.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+
+                cell1.textContent = key;
+                if (typeof data[key] === 'object') {
+                    cell2.textContent = JSON.stringify(data[key], null, 2);
+                } else {
+                    cell2.textContent = data[key];
+                }
+            }
+            
+
+            container.appendChild(table);
+        }
+        
+        function createVerticalTable(data, containerId) {
+            var container = document.getElementById(containerId);
+            var table = document.createElement('table');
+            var headingElement = document.createElement('h2');
+            headingElement.textContent = containerId;
+            container.appendChild(headingElement);
+
+            // Create table body
+            for (var i = 0; i < data.length; i++) {
+                for (var key in data[i]) {
+                    var row = table.insertRow();
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+
+                    cell1.textContent = key;
+                    cell2.textContent = data[i][key];
+                }
+            }
+
+            container.appendChild(table);
+        }
+        
+        
+        // Call the function with the provided JSON data for each block
+        createTable(jsonData.categories, 'categoriesBlock');
+        createVerticalTable(jsonData.crowdsourced_context, 'crowdsourcedContextBlock');
+        createTable(jsonData.last_analysis_results, 'lastAnalysisResultsBlock');
+        createTable({ 'last_final_url': jsonData.last_final_url }, 'lastFinalUrlBlock');
+        createTable({ 'safe_percentage': jsonData.safe_percentage }, 'safePercentageBlock');
+        // Create buttons for each block
+        var blockButtons = ['categoriesBlock', 'crowdsourcedContextBlock', 'lastAnalysisResultsBlock', 'lastFinalUrlBlock', 'safePercentageBlock'];
+        blockButtons.forEach(function (blockId) {
+            var button = document.createElement('button');
+            button.textContent = 'Toggle ' + blockId;
+            button.addEventListener('click', function () {
+                toggleBlockVisibility(blockId);
+                button.classList.toggle("clickedButton"); // Toggle the class
+            });
+
+            var existingDiv = document.getElementById("existingDiv");
+            existingDiv.appendChild(button);
+        });
+    });
+</script>
+<div id="container">
+    <div id="existingDiv">
+        <!-- The button will be dynamically added here -->
+    </div>
+    <!-- Div for 'categories' block -->
+    <div class="block" id="categoriesBlock" style="display: none;">
+        <!-- <h2>Categories</h2> -->
+    </div>
+
+    <!-- Div for 'crowdsourced_context' block -->
+    <div class="block" id="crowdsourcedContextBlock" style="display: none;">
+        <!-- <h2>Crowdsourced Context</h2> -->
+    </div>
+
+    <!-- Div for 'last_analysis_results' block -->
+    <div class="block" id="lastAnalysisResultsBlock" style="display: none;">
+        <!-- <h2>Last Analysis Results</h2> -->
+    </div>
+
+    <!-- Div for 'last_final_url' block -->
+    <div class="block" id="lastFinalUrlBlock" style="display: none;">
+        <!-- <h2>Last Final URL</h2> -->
+    </div>
+
+    <!-- Div for 'safe_percentage' block -->
+    <div class="block" id="safePercentageBlock" style="display: none;">
+        <!-- <h2>Safe Percentage</h2> -->
+    </div>
+</div>
+</body>
+</html>
